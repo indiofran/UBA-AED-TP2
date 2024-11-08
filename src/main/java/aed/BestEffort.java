@@ -1,12 +1,19 @@
 package aed;
 
+import aed.data.Heap;
+
 import java.util.ArrayList;
 
 public class BestEffort {
     //Completar atributos privados
+    private Heap masRedituables;
+    private Heap masAntiguos;
+    private EstadisticasDeCiudades estadisticas;
 
     public BestEffort(int cantCiudades, Traslado[] traslados){
-        // Implementar
+        estadisticas = new EstadisticasDeCiudades(cantCiudades);
+        masAntiguos = new Heap();
+        masRedituables = new Heap();
     }
 
     public void registrarTraslados(Traslado[] traslados){
@@ -14,33 +21,31 @@ public class BestEffort {
     }
 
     public int[] despacharMasRedituables(int n){
-        // Implementar
+        // masRedituable.first()
         return null;
     }
 
     public int[] despacharMasAntiguos(int n){
-        // Implementar
+        // masAntiguos.first()
         return null;
     }
 
     public int ciudadConMayorSuperavit(){
         // Implementar
-        return 0;
+        return estadisticas.obtenerSuperavit();
     }
 
     public ArrayList<Integer> ciudadesConMayorGanancia(){
-        // Implementar
-        return null;
+        return estadisticas.obtenerMayoresGanancias();
     }
 
     public ArrayList<Integer> ciudadesConMayorPerdida(){
-        // Implementar
-        return null;
+        return estadisticas.obtenerMayoresPerdida();
     }
 
     public int gananciaPromedioPorTraslado(){
         // Implementar
-        return 0;
+        return estadisticas.obtenerGananciaPromedio();
     }
 
 }
