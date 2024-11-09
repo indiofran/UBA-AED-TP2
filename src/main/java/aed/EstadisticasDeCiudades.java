@@ -1,25 +1,25 @@
 package aed;
 
-import aed.data.Heap;
-
 import java.util.ArrayList;
+
+import aed.data.ColaDePrioridad;
 
 public class EstadisticasDeCiudades {
 
-    private  ArrayList<Ciudades> ciudades;
-    private Heap ciudadesConMayorSuperavit;
-    private  ArrayList<Integer>ciudadesConMayorGanancia;
-    private  ArrayList<Integer>ciudadesConMayorPerdida;
-    private  int gananciasTotales;
-    private  int trasladosDespachados;
+    private ArrayList<Ciudades> ciudades;
+    private ColaDePrioridad<Ciudades> ciudadesConMayorSuperavit;
+    private ArrayList<Integer> ciudadesConMayorGanancia;
+    private ArrayList<Integer> ciudadesConMayorPerdida;
+    private int gananciasTotales;
+    private int trasladosDespachados;
 
     public EstadisticasDeCiudades(int cantCiudades) {
-           //
+        //
     }
 
     public void actualizarGanancia(int ciudad, int ganancia) {
         gananciasTotales += ganancia;
-        //ver como agregar a ciudades
+        // ver como agregar a ciudades
     }
 
     public void actualizarPerdida(int ciudad, int perdida) {
@@ -31,16 +31,16 @@ public class EstadisticasDeCiudades {
         return 0;
     }
 
-    public ArrayList<Integer> obtenerMayoresGanancias(){
-       return ciudadesConMayorGanancia;
+    public ArrayList<Integer> obtenerMayoresGanancias() {
+        return ciudadesConMayorGanancia;
     }
 
-    public ArrayList<Integer> obtenerMayoresPerdida(){
+    public ArrayList<Integer> obtenerMayoresPerdida() {
         return ciudadesConMayorPerdida;
     }
 
-    public int obtenerGananciaPromedio(){
-        return gananciasTotales/trasladosDespachados;
+    public int obtenerGananciaPromedio() {
+        return gananciasTotales / trasladosDespachados;
     }
 
 }
