@@ -3,11 +3,12 @@ package aed;
 import java.util.ArrayList;
 
 import aed.data.ColaDePrioridad;
+import aed.interfaces.ColaDePrioridadHandlesInterfaz;
 
 public class EstadisticasDeCiudades {
 
     private ArrayList<Ciudades> ciudades;
-    private ColaDePrioridad<Ciudades> ciudadesConMayorSuperavit;
+    private ColaDePrioridadHandlesInterfaz<Ciudades> ciudadesConMayorSuperavit;
     private ArrayList<Integer> ciudadesConMayorGanancia;
     private ArrayList<Integer> ciudadesConMayorPerdida;
     private int gananciasTotales;
@@ -17,13 +18,8 @@ public class EstadisticasDeCiudades {
         //
     }
 
-    public void actualizarGanancia(int ciudad, int ganancia) {
-        gananciasTotales += ganancia;
-        // ver como agregar a ciudades
-    }
-
-    public void actualizarPerdida(int ciudad, int perdida) {
-        // Incrementar pérdida de una ciudad específica
+    public void actualizar(Traslado t) {
+        // Actualizar estadisticas dado un traslado
     }
 
     public int obtenerSuperavit() {
