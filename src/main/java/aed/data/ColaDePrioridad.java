@@ -2,6 +2,7 @@ package aed.data;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Iterator;
 
 import aed.interfaces.ColaDePrioridadInterfaz;
 
@@ -17,6 +18,10 @@ public class ColaDePrioridad<T> implements ColaDePrioridadInterfaz<T> {
     public ColaDePrioridad(ArrayList<T> elems, Comparator<T> comparator) {
         this.elems = new ArrayList<T>(elems);
         this.comp = comparator;
+
+        for (int i = elems.size() - 1; i >= 0; i--) {
+            siftDown(i);
+        }
     }
 
     public void encolar(T elem) {
@@ -39,6 +44,10 @@ public class ColaDePrioridad<T> implements ColaDePrioridadInterfaz<T> {
 
     public int tamaño() {
         return elems.size();
+    }
+
+    public Iterator<T> iterator() {
+        return elems.iterator();
     }
 
     private void swap(int i, int j) {
