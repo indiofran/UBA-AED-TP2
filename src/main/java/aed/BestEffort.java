@@ -12,8 +12,8 @@ public class BestEffort {
     private PriorityQueue<Traslado> masAntiguos;
     private CityStatistics estadisticas;
 
-    public BestEffort(int cantCiudades, Traslado[] traslados) {
-        estadisticas = new CityStatistics(cantCiudades);
+    public BestEffort(Ciudad[] ciudades, Traslado[] traslados) {
+        estadisticas = new CityStatistics(ciudades);
         masAntiguos = new PriorityQueue<Traslado>(new OldestComparator());
         masRedituables = new PriorityQueue<Traslado>(new ProfitableComparator());
     }
@@ -34,15 +34,15 @@ public class BestEffort {
 
     public int ciudadConMayorSuperavit() {
         // Implementar
-        return estadisticas.getSurplus();
+        return estadisticas.getHighestSurplus();
     }
 
     public ArrayList<Integer> ciudadesConMayorGanancia() {
-        return estadisticas.getHigherProfits();
+        return estadisticas.getHighestProfits();
     }
 
     public ArrayList<Integer> ciudadesConMayorPerdida() {
-        return estadisticas.getHigherLost();
+        return estadisticas.getHighestLost();
     }
 
     public int gananciaPromedioPorTraslado() {
