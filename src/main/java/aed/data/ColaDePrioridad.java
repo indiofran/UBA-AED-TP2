@@ -2,64 +2,147 @@ package aed.data;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Iterator;
 
 import aed.interfaces.ColaDePrioridadInterfaz;
 
 public class ColaDePrioridad<T> implements ColaDePrioridadInterfaz<T> {
-    private ArrayList<T> elems;
-    private Comparator<T> comp;
+    private ArrayList<Nodo> nodos;
+    private Comparator<T> cmp;
 
     public ColaDePrioridad(Comparator<T> comparator) {
-        this.elems = new ArrayList<T>();
-        this.comp = comparator;
+        this.nodos = new ArrayList<Nodo>();
+        this.cmp = comparator;
     }
 
     public ColaDePrioridad(ArrayList<T> elems, Comparator<T> comparator) {
-        this.elems = new ArrayList<T>(elems);
-        this.comp = comparator;
+        this.nodos = new ArrayList<Nodo>();
+        this.cmp = comparator;
+
+        for (int i = 0; i < elems.size(); i++) {
+            this.nodos.add(new Nodo(elems.get(i)));
+        }
 
         for (int i = elems.size() - 1; i >= 0; i--) {
             siftDown(i);
         }
     }
 
-    public void encolar(T elem) {
-        elems.add(elem);
-        siftUp(elems.size() - 1);
+    public Handle encolar(T elem) {
+        Nodo nuevoNodo = new Nodo(elem);
+        nodos.add(nuevoNodo);
+        siftUp(nodos.size() - 1);
+
+        return nuevoNodo.handle;
     }
 
     public T desencolar() {
-        T elem = elems.get(0);
-        elems.set(0, elems.get(elems.size() - 1));
-        elems.remove(elems.size() - 1);
+        T elem = nodos.get(0).data;
+        nodos.set(0, nodos.get(nodos.size() - 1));
+        nodos.remove(nodos.size() - 1);
         siftDown(0);
 
         return elem;
     }
 
     public T obtenerMax() {
-        return elems.get(0);
+        return nodos.get(0).data;
+    }
+
+    public T eliminar(HandleInterface handle) {
+        int i = handle.obtenerIndice();
+        T elem = nodos.get(i).data;
+        Nodo ultimo = nodos.get(nodos.size() - 1);
+
+        nodos.remove(nodos.size() - 1);
+
+        if (i >= nodos.size()) {
+            return elem;
+        }
+
+        nodos.set(i, ultimo);
+        ultimo.handle.actualizarIndice(i);
+
+        int padre = (i - 1) / 2;
+
+        if (tieneMayorPrioridad(i, padre)) {
+            siftUp(i);
+        } else {
+            siftDown(i);
+        }
+
+        return elem;
+    }
+
+    public void actualizar(HandleInterface handle, T elem) {
+        int i = handle.obtenerIndice();
+        int padre = (i - 1) / 2;
+
+        nodos.get(i).data = elem;
+
+        if (tieneMayorPrioridad(i, padre)) {
+            siftUp(i);
+        } else {
+            siftDown(i);
+        }
+    }
+
+    public T obtener(HandleInterface handle) {
+        return nodos.get(handle.obtenerIndice()).data;
+    }
+
+    public ArrayList<HandleInterface> obtenerHandles() {
+        ArrayList<HandleInterface> listaHandles = new ArrayList<HandleInterface>();
+
+        for (Nodo nodo : nodos) {
+            listaHandles.add(nodo.handle);
+        }
+
+        return listaHandles;
     }
 
     public int tamaño() {
-        return elems.size();
+        return nodos.size();
     }
 
-    public Iterator<T> iterator() {
-        return elems.iterator();
+    public class Handle implements HandleInterface {
+        private int indice;
+
+        public Handle() {
+            this.indice = nodos.size();
+        }
+
+        public int obtenerIndice() {
+            return indice;
+        }
+
+        public void actualizarIndice(int i) {
+            this.indice = i;
+        }
+    }
+
+    private class Nodo {
+        T data;
+        Handle handle;
+
+        public Nodo(T elem) {
+            this.data = elem;
+            this.handle = new Handle();
+        }
     }
 
     private void swap(int i, int j) {
-        T aux = elems.get(i);
-        elems.set(i, elems.get(j));
-        elems.set(j, aux);
+        nodos.get(i).handle.actualizarIndice(j);
+        nodos.get(j).handle.actualizarIndice(i);
+
+        Nodo aux = nodos.get(i);
+        nodos.set(i, nodos.get(j));
+        nodos.set(j, aux);
     }
 
     private void siftUp(int i) {
         int padre = (i - 1) / 2;
 
-        if (i != 0 && comp.compare(elems.get(i), elems.get(padre)) > 0) {
+        if (i != 0 && tieneMayorPrioridad(i, padre)) {
             swap(i, padre);
             siftUp(padre);
         }
@@ -69,16 +152,20 @@ public class ColaDePrioridad<T> implements ColaDePrioridadInterfaz<T> {
         int izq = 2 * i + 1;
         int der = 2 * i + 2;
 
-        if (der < elems.size()) {
-            int max = comp.compare(elems.get(der), elems.get(izq)) > 0 ? der : izq;
+        if (der < nodos.size()) {
+            int max = tieneMayorPrioridad(der, izq) ? der : izq;
 
-            if (comp.compare(elems.get(max), elems.get(i)) > 0) {
+            if (tieneMayorPrioridad(max, i)) {
                 swap(i, max);
                 siftDown(max);
             }
-        } else if (izq < elems.size() && comp.compare(elems.get(izq), elems.get(i)) > 0) {
+        } else if (izq < nodos.size() && tieneMayorPrioridad(izq, i)) {
             swap(i, izq);
             siftDown(izq);
         }
+    }
+
+    private boolean tieneMayorPrioridad(int i, int j) {
+        return cmp.compare(nodos.get(i).data, nodos.get(j).data) > 0;
     }
 }
