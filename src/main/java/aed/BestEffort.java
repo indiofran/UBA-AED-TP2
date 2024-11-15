@@ -1,8 +1,11 @@
 package aed;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import aed.data.PriorityQueue;
+import aed.data.TransportNode;
+import aed.interfaces.PriorityQueueInterface;
 import aed.utils.OldestComparator;
 import aed.utils.ProfitableComparator;
 
@@ -13,9 +16,24 @@ public class BestEffort {
     private CityStatistics estadisticas;
 
     public BestEffort(int cantCiudades, Traslado[] traslados) {
+        TransportNode[] transportNodes = new TransportNode[traslados.length];
+        for (int i = 0; i < traslados.length; i++) {
+            Traslado t = traslados[i];
+            transportNodes[i] = new TransportNode(t.id, t.origen, t.destino, t.gananciaNeta, t.timestamp);
+        }
+
         estadisticas = new CityStatistics(cantCiudades);
-        masAntiguos = new PriorityQueue<Traslado>(new OldestComparator());
-        masRedituables = new PriorityQueue<Traslado>(new ProfitableComparator());
+        masRedituables = new PriorityQueue<>(transportNodes, new ProfitableComparator());
+        masAntiguos = new PriorityQueue<>(transportNodes, new OldestComparator());
+
+        for (int i = 0; i < transportNodes.length; i++) {
+            TransportNode transportNode = transportNodes[i];
+            PriorityQueueInterface.HandleInterface profitableHandle = masRedituables.getHandle().get(i);
+            PriorityQueueInterface.HandleInterface oldestHandle = masAntiguos.getHandle().get(i);
+            transportNode.updateProfitable(profitableHandle);
+            transportNode.updateOldest(oldestHandle);
+        }
+
     }
 
     public void registrarTraslados(Traslado[] traslados) {
