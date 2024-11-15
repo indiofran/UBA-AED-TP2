@@ -35,7 +35,7 @@ public class PriorityQueueTests {
     }
 
     @Test
-    public void listaEnOrden() {
+    public void listOrdered() {
         PriorityQueue<Integer> pq = new PriorityQueue<Integer>(new Integer[]{5, 4, 3, 2, 1}, Comparator.naturalOrder());
 
         assertEquals(pq.size(), 5);
@@ -49,7 +49,7 @@ public class PriorityQueueTests {
     }
 
     @Test
-    public void listaEnOrdenInverso() {
+    public void listInReverseOrder() {
         PriorityQueue<Integer> pq = new PriorityQueue<Integer>(new Integer[]{1, 2, 3, 4, 5}, Comparator.naturalOrder());
 
         assertEquals(pq.size(), 5);
@@ -62,7 +62,7 @@ public class PriorityQueueTests {
     }
 
     @Test
-    public void listaEnDesorden() {
+    public void listNotOrdered() {
         PriorityQueue<Integer> pq = new PriorityQueue<Integer>(new Integer[]{3, 5, 2, 4, 1}, Comparator.naturalOrder());
 
         assertEquals(pq.size(), 5);
@@ -76,7 +76,7 @@ public class PriorityQueueTests {
     }
 
     @Test
-    public void accederConHandle() {
+    public void getWithHandle() {
         PriorityQueue<Integer> pq = new PriorityQueue<Integer>(Comparator.naturalOrder());
         ArrayList<Integer> elems = new ArrayList<>(Arrays.asList(2, 4, 3, 1, 5));
         ArrayList<HandleInterface> handles = new ArrayList<>();
