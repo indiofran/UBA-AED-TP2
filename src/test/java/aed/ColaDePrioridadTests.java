@@ -36,8 +36,7 @@ public class ColaDePrioridadTests {
 
     @Test
     public void listaEnOrden() {
-        ColaDePrioridad<Integer> pq = new ColaDePrioridad<Integer>(new ArrayList<Integer>(Arrays.asList(5, 4, 3, 2, 1)),
-                Comparator.naturalOrder());
+        ColaDePrioridad<Integer> pq = new ColaDePrioridad<Integer>(new Integer[]{5, 4, 3, 2, 1}, Comparator.naturalOrder());
 
         assertEquals(pq.tamaño(), 5);
         assertEquals(pq.obtenerMax(), 5);
@@ -51,8 +50,7 @@ public class ColaDePrioridadTests {
 
     @Test
     public void listaEnOrdenInverso() {
-        ColaDePrioridad<Integer> pq = new ColaDePrioridad<Integer>(new ArrayList<Integer>(Arrays.asList(1, 2, 3, 4, 5)),
-                Comparator.naturalOrder());
+        ColaDePrioridad<Integer> pq = new ColaDePrioridad<Integer>(new Integer[]{1, 2, 3, 4, 5}, Comparator.naturalOrder());
 
         assertEquals(pq.tamaño(), 5);
         assertEquals(pq.desencolar(), 5);
@@ -65,8 +63,7 @@ public class ColaDePrioridadTests {
 
     @Test
     public void listaEnDesorden() {
-        ColaDePrioridad<Integer> pq = new ColaDePrioridad<Integer>(new ArrayList<Integer>(Arrays.asList(3, 5, 2, 4, 1)),
-                Comparator.naturalOrder());
+        ColaDePrioridad<Integer> pq = new ColaDePrioridad<Integer>(new Integer[]{3, 5, 2, 4, 1}, Comparator.naturalOrder());
 
         assertEquals(pq.tamaño(), 5);
         assertEquals(pq.obtenerMax(), 5);
@@ -134,8 +131,7 @@ public class ColaDePrioridadTests {
 
     @Test
     public void encolarYDesencolar() {
-        ColaDePrioridad<Integer> pq = new ColaDePrioridad<Integer>(
-                new ArrayList<Integer>(Arrays.asList(2, 4, 5, 3, 6, 1)), Comparator.naturalOrder());
+        ColaDePrioridad<Integer> pq = new ColaDePrioridad<>(new Integer[]{2, 4, 5, 3, 6, 1}, Comparator.naturalOrder());
 
         pq.encolar(10);
         pq.encolar(1);
@@ -154,8 +150,7 @@ public class ColaDePrioridadTests {
 
     @Test
     public void obtenerHandles() {
-        ColaDePrioridad<Integer> pq = new ColaDePrioridad<Integer>(new ArrayList<Integer>(Arrays.asList(2, 4, 3, 1, 5)),
-                Comparator.naturalOrder());
+        ColaDePrioridad<Integer> pq = new ColaDePrioridad<Integer>(new Integer[]{2, 4, 3, 1, 5}, Comparator.naturalOrder());
 
         ArrayList<HandleInterface> handles = pq.obtenerHandles();
 

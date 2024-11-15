@@ -1,6 +1,7 @@
 package aed.data;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 
 import aed.interfaces.ColaDePrioridadInterfaz;
@@ -14,15 +15,15 @@ public class ColaDePrioridad<T> implements ColaDePrioridadInterfaz<T> {
         this.cmp = comparator;
     }
 
-    public ColaDePrioridad(ArrayList<T> elems, Comparator<T> comparator) {
+    public ColaDePrioridad(T[] elems, Comparator<T> comparator) {
         this.nodos = new ArrayList<Nodo>();
         this.cmp = comparator;
 
-        for (int i = 0; i < elems.size(); i++) {
-            this.nodos.add(new Nodo(elems.get(i)));
+        for (int i = 0; i < elems.length; i++) {
+            this.nodos.add(new Nodo(elems[i]));
         }
 
-        for (int i = elems.size() - 1; i >= 0; i--) {
+        for (int i = elems.length - 1; i >= 0; i--) {
             siftDown(i);
         }
     }
