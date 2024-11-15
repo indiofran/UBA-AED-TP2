@@ -2,18 +2,20 @@ package aed;
 
 import java.util.ArrayList;
 
-import aed.data.ColaDePrioridad;
+import aed.data.PriorityQueue;
+import aed.utils.OldestComparator;
+import aed.utils.ProfitableComparator;
 
 public class BestEffort {
     // Completar atributos privados
-    private ColaDePrioridad<Traslado> masRedituables;
-    private ColaDePrioridad<Traslado> masAntiguos;
-    private EstadisticasDeCiudades estadisticas;
+    private PriorityQueue<Traslado> masRedituables;
+    private PriorityQueue<Traslado> masAntiguos;
+    private CityStatistics estadisticas;
 
     public BestEffort(int cantCiudades, Traslado[] traslados) {
-        estadisticas = new EstadisticasDeCiudades(cantCiudades);
-        masAntiguos = new ColaDePrioridad<Traslado>(null);
-        masRedituables = new ColaDePrioridad<Traslado>(null);
+        estadisticas = new CityStatistics(cantCiudades);
+        masAntiguos = new PriorityQueue<Traslado>(new OldestComparator());
+        masRedituables = new PriorityQueue<Traslado>(new ProfitableComparator());
     }
 
     public void registrarTraslados(Traslado[] traslados) {
@@ -32,20 +34,20 @@ public class BestEffort {
 
     public int ciudadConMayorSuperavit() {
         // Implementar
-        return estadisticas.obtenerSuperavit();
+        return estadisticas.getSurplus();
     }
 
     public ArrayList<Integer> ciudadesConMayorGanancia() {
-        return estadisticas.obtenerMayoresGanancias();
+        return estadisticas.getHigherProfits();
     }
 
     public ArrayList<Integer> ciudadesConMayorPerdida() {
-        return estadisticas.obtenerMayoresPerdida();
+        return estadisticas.getHigherLost();
     }
 
     public int gananciaPromedioPorTraslado() {
         // Implementar
-        return estadisticas.obtenerGananciaPromedio();
+        return estadisticas.getAverageProfit();
     }
 
 }
