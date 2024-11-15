@@ -15,4 +15,8 @@ public class Traslado {
         this.gananciaNeta = gananciaNeta;
         this.timestamp = timestamp;
     }
+
+    public int getTimestamp() {
+        return timestamp;
+    }
 }
