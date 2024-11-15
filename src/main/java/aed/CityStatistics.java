@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import aed.data.City;
 import aed.data.PriorityQueue;
+import aed.data.TransportNode;
+import aed.interfaces.PriorityQueueInterface;
 import aed.utils.CitySurplusComparator;
 
 public class CityStatistics {
@@ -22,6 +24,11 @@ public class CityStatistics {
             cities[i]=city;
         }
         citySurplusQueue = new PriorityQueue<>(cities, new CitySurplusComparator());
+        for (int i = 0; i < cities.length; i++) {
+            City city = cities[i];
+            PriorityQueueInterface.HandleInterface surplusHandle = citySurplusQueue.getHandle().get(i);
+            city.updateHandle(surplusHandle);
+        }
         citiesProfits = new ArrayList<>();
         citiesLoses = new ArrayList<>();
         totalProfits = 0;

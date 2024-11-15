@@ -21,4 +21,8 @@ public class City {
     public int getLoses() {
         return loses;
     }
+
+    public void updateHandle(PriorityQueueInterface.HandleInterface handle){
+        this.handle = handle;
+    }
 }
