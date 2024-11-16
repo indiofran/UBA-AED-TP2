@@ -9,11 +9,10 @@ public class CitySurplusComparator  implements Comparator<City> {
 
     @Override
     public int compare(City o1, City o2) {
-        int surplus_o1 =  o1.getProfit() - o1.getLoses();
-        int surplus_o2= o2.getProfit() - o2.getLoses();
-        if (surplus_o1 != surplus_o2) {
-            return Integer.compare(surplus_o1, surplus_o2);
-        }
+        int comparative = Integer.compare(o1.getSurplus(), o2.getSurplus());
+        if (comparative == 0) {
             return Integer.compare(o2.getId(), o1.getId());
+        }
+        return comparative;
     }
 }

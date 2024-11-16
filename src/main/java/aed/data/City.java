@@ -24,8 +24,18 @@ public class City {
     public int getId(){
         return id;
     }
+    public int getSurplus() {
+        return profit - loses;
+    }
 
     public void updateHandle(PriorityQueueInterface.HandleInterface handle){
         this.handle = handle;
+    }
+
+    public void updateProfit(int profit){
+        this.profit += profit;
+    }
+    public void updateLoses(int loses){
+        this.loses += loses;
     }
 }

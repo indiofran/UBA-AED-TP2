@@ -54,15 +54,15 @@ public class BestEffort {
 
     public int ciudadConMayorSuperavit() {
         // Implementar
-        return estadisticas.getSurplus();
+        return estadisticas.getHighestSurplus();
     }
 
     public ArrayList<Integer> ciudadesConMayorGanancia() {
-        return estadisticas.getHigherProfits();
+        return estadisticas.getHighestProfits();
     }
 
     public ArrayList<Integer> ciudadesConMayorPerdida() {
-        return estadisticas.getHigherLost();
+        return estadisticas.getHighestLost();
     }
 
     public int gananciaPromedioPorTraslado() {
