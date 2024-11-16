@@ -40,7 +40,7 @@ public class CityStatistics {
     }
 
     public int getSurplus() {
-        return 0;
+        return citySurplusQueue.peek().getProfit();
     }
 
     public ArrayList<Integer> getHigherProfits() {
