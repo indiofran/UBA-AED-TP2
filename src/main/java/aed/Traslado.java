@@ -19,4 +19,12 @@ public class Traslado {
     public int getTimestamp() {
         return timestamp;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getProfit(){
+        return gananciaNeta;
+    }
 }

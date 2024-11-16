@@ -11,6 +11,9 @@ public class CitySurplusComparator  implements Comparator<City> {
     public int compare(City o1, City o2) {
         int surplus_o1 =  o1.getProfit() - o1.getLoses();
         int surplus_o2= o2.getProfit() - o2.getLoses();
-        return Integer.compare(surplus_o1, surplus_o2);
+        if (surplus_o1 != surplus_o2) {
+            return Integer.compare(surplus_o1, surplus_o2);
+        }
+            return Integer.compare(o1.getId(), o2.getId());
     }
 }
