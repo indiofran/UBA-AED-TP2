@@ -47,27 +47,40 @@ public class BestEffort {
     }
 
     public int[] despacharMasRedituables(int n) {
-        int min = n < masRedituables.size() ? n : masRedituables.size();
-        int[] ids = new int[min];
-        for (int i = 0; i < min; i++) {
-            TransportNode t = masRedituables.poll();
-            masAntiguos.remove(t.getHandleOldest());
-            ids[i] = t.getId();
-            estadisticas.refresh(t);
+        TransportNode[] traslados = this.dispatch(n, masRedituables);
+        int[] response = new int[traslados.length];
+
+        for (int i = 0; i < traslados.length; i++) {
+            masAntiguos.remove(traslados[i].getHandleOldest());
+            response[i] = traslados[i].getId();
         }
-        return ids;
+
+        return response;
     }
 
     public int[] despacharMasAntiguos(int n) {
-        int min = n < masAntiguos.size() ? n : masAntiguos.size();
-        int[] ids = new int[min];
+        TransportNode[] traslados = this.dispatch(n, masAntiguos);
+        int[] response = new int[traslados.length];
+
+        for (int i = 0; i < traslados.length; i++) {
+            masRedituables.remove(traslados[i].getHandleProfitable());
+            response[i] = traslados[i].getId();
+        }
+
+        return response;
+    }
+
+    private TransportNode[] dispatch(int n, PriorityQueue<TransportNode> pqueue) {
+        int min = n < pqueue.size() ? n : pqueue.size();
+        TransportNode[] traslados = new TransportNode[min];
+
         for (int i = 0; i < min; i++) {
-            TransportNode t = masAntiguos.poll();
-            masRedituables.remove(t.getHandleProfitable());
-            ids[i] = t.getId();
+            TransportNode t = pqueue.poll();
+            traslados[i] = t;
             estadisticas.refresh(t);
         }
-        return ids;
+
+        return traslados;
     }
 
     public int ciudadConMayorSuperavit() {
