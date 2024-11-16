@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import aed.data.City;
 import aed.data.PriorityQueue;
-import aed.interfaces.PriorityQueueInterface;
+import aed.interfaces.PriorityQueueInterface.HandleInterface;
 import aed.utils.CitySurplusComparator;
 
 public class CityStatistics {
@@ -23,10 +23,10 @@ public class CityStatistics {
             cities[i] = city;
         }
         citySurplusQueue = new PriorityQueue<>(cities, new CitySurplusComparator());
-        ArrayList<PriorityQueueInterface.HandleInterface> surplusHandles = citySurplusQueue.getHandle();
+        ArrayList<HandleInterface> surplusHandles = citySurplusQueue.getHandle();
         for (int i = 0; i < cities.length; i++) {
             City city = cities[i];
-            PriorityQueueInterface.HandleInterface surplusHandle = surplusHandles.get(i);
+            HandleInterface surplusHandle = surplusHandles.get(i);
             city.updateHandle(surplusHandle);
         }
         citiesProfits = new ArrayList<>();
@@ -57,7 +57,6 @@ public class CityStatistics {
             }
             if (ciudadOrigen.getProfit() + t.gananciaNeta == greatestProfit) {
                 this.citiesProfits.add(ciudadOrigen.getId());
-
             }
         }
 

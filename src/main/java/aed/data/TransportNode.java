@@ -1,26 +1,29 @@
 package aed.data;
 
 import aed.Traslado;
-import aed.interfaces.PriorityQueueInterface;
+import aed.interfaces.PriorityQueueInterface.HandleInterface;;
 
 public class TransportNode extends Traslado {
-    PriorityQueueInterface.HandleInterface handleOldest;
-    PriorityQueueInterface.HandleInterface handleProfitable;
+    HandleInterface handleOldest;
+    HandleInterface handleProfitable;
 
     public TransportNode(int id, int origen, int destino, int gananciaNeta, int timestamp) {
         super(id, origen, destino, gananciaNeta, timestamp);
     }
 
-    public void updateOldest(PriorityQueueInterface.HandleInterface handle){
+    public void updateOldest(HandleInterface handle) {
         this.handleOldest = handle;
     }
-    public void updateProfitable(PriorityQueueInterface.HandleInterface handle){
+
+    public void updateProfitable(HandleInterface handle) {
         this.handleProfitable = handle;
     }
-    public PriorityQueueInterface.HandleInterface getHandleOldest() {
+
+    public HandleInterface getHandleOldest() {
         return handleOldest;
     }
-    public PriorityQueueInterface.HandleInterface getHandleProfitable() {
+
+    public HandleInterface getHandleProfitable() {
         return handleProfitable;
     }
 }

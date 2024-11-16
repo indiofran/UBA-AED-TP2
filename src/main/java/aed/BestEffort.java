@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import aed.data.PriorityQueue;
 import aed.data.TransportNode;
-import aed.interfaces.PriorityQueueInterface;
+import aed.interfaces.PriorityQueueInterface.HandleInterface;
 import aed.utils.OldestComparator;
 import aed.utils.ProfitableComparator;
 
@@ -24,57 +24,50 @@ public class BestEffort {
         masRedituables = new PriorityQueue<>(transportNodes, new ProfitableComparator());
         masAntiguos = new PriorityQueue<>(transportNodes, new OldestComparator());
 
-        ArrayList<PriorityQueueInterface.HandleInterface> handlesRedituable = masRedituables.getHandle();
-        ArrayList<PriorityQueueInterface.HandleInterface> handlesAntiguos = masAntiguos.getHandle();
+        ArrayList<HandleInterface> handlesRedituable = masRedituables.getHandle();
+        ArrayList<HandleInterface> handlesAntiguos = masAntiguos.getHandle();
+
         for (int i = 0; i < transportNodes.length; i++) {
-            TransportNode transportNode = transportNodes[i];
-            PriorityQueueInterface.HandleInterface profitableHandle = handlesRedituable.get(i);
-            PriorityQueueInterface.HandleInterface oldestHandle = handlesAntiguos.get(i);
-            transportNode.updateProfitable(profitableHandle);
-            transportNode.updateOldest(oldestHandle);
+            HandleInterface profitableHandle = handlesRedituable.get(i);
+            HandleInterface oldestHandle = handlesAntiguos.get(i);
+            masRedituables.get(profitableHandle).updateProfitable(profitableHandle);
+            masAntiguos.get(oldestHandle).updateOldest(oldestHandle);
         }
 
     }
 
     public void registrarTraslados(Traslado[] traslados) {
-        for(Traslado t : traslados){
+        for (Traslado t : traslados) {
             TransportNode traslado = new TransportNode(t.id, t.origen, t.destino, t.gananciaNeta, t.timestamp);
-           PriorityQueue<TransportNode>.Handle hadleRedituable =  masRedituables.add(traslado);
-           traslado.updateProfitable(hadleRedituable);
-            PriorityQueue<TransportNode>.Handle hadleAntiguo = masAntiguos.add(traslado);
+            HandleInterface hadleRedituable = masRedituables.add(traslado);
+            HandleInterface hadleAntiguo = masAntiguos.add(traslado);
+            traslado.updateProfitable(hadleRedituable);
             traslado.updateOldest(hadleAntiguo);
         }
     }
 
     public int[] despacharMasRedituables(int n) {
-        TransportNode[] traslados =  this.dispatch(n, masRedituables);
-        int[] response = new int[traslados.length];
-        for (int i = 0; i < traslados.length; i++ ) {
-                masAntiguos.remove(traslados[i].getHandleOldest());
-                response[i] = traslados[i].getId();
+        int min = n < masRedituables.size() ? n : masRedituables.size();
+        int[] ids = new int[min];
+        for (int i = 0; i < min; i++) {
+            TransportNode t = masRedituables.poll();
+            masAntiguos.remove(t.getHandleOldest());
+            ids[i] = t.getId();
+            estadisticas.refresh(t);
         }
-        return response;
+        return ids;
     }
 
     public int[] despacharMasAntiguos(int n) {
-        TransportNode[] traslados =  this.dispatch(n, masAntiguos);
-        int[] response = new int[traslados.length];
-        for (int i = 0; i < traslados.length; i++ ) {
-            masRedituables.remove(traslados[i].getHandleOldest());
-            response[i] = traslados[i].getId();
-        }
-        return response;
-    }
-
-    private TransportNode[] dispatch(int n, PriorityQueue<TransportNode> pqueue) {
-        int max = n < pqueue.size() ? n : pqueue.size();
-        TransportNode[] traslados = new TransportNode[max];
-        for (int i = 0; i < max; i++) {
-            TransportNode t = pqueue.poll();
-            traslados[i]= t;
+        int min = n < masAntiguos.size() ? n : masAntiguos.size();
+        int[] ids = new int[min];
+        for (int i = 0; i < min; i++) {
+            TransportNode t = masAntiguos.poll();
+            masRedituables.remove(t.getHandleProfitable());
+            ids[i] = t.getId();
             estadisticas.refresh(t);
         }
-        return traslados;
+        return ids;
     }
 
     public int ciudadConMayorSuperavit() {
@@ -90,7 +83,6 @@ public class BestEffort {
     }
 
     public int gananciaPromedioPorTraslado() {
-        // Implementar
         return estadisticas.getAverageProfit();
     }
 

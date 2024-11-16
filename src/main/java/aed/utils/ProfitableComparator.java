@@ -1,6 +1,5 @@
 package aed.utils;
 
-import aed.Traslado;
 import aed.data.TransportNode;
 
 import java.util.Comparator;
@@ -12,7 +11,6 @@ public class ProfitableComparator implements Comparator<TransportNode> {
         if (t1.getProfit() != t2.getProfit()) {
             return Integer.compare(t1.getProfit(), t2.getProfit());
         }
-        return Integer.compare(t1.getId(), t2.getId());
+        return Integer.compare(t2.getId(), t1.getId());
     }
 }
-
