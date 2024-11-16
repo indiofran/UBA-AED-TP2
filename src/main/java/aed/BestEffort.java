@@ -1,7 +1,6 @@
 package aed;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 import aed.data.PriorityQueue;
 import aed.data.TransportNode;
@@ -10,7 +9,6 @@ import aed.utils.OldestComparator;
 import aed.utils.ProfitableComparator;
 
 public class BestEffort {
-    // Completar atributos privados
     private PriorityQueue<Traslado> masRedituables;
     private PriorityQueue<Traslado> masAntiguos;
     private CityStatistics estadisticas;
@@ -43,12 +41,18 @@ public class BestEffort {
     }
 
     public int[] despacharMasRedituables(int n) {
-        // masRedituable.first()
+        for (int i = 0; i < n; i++) {
+            Traslado t = masRedituables.poll();
+            estadisticas.refresh(t);
+        }
         return null;
     }
 
     public int[] despacharMasAntiguos(int n) {
-        // masAntiguos.first()
+        for (int i = 0; i < n; i++) {
+            Traslado t = masRedituables.poll();
+            estadisticas.refresh(t);
+        }
         return null;
     }
 
