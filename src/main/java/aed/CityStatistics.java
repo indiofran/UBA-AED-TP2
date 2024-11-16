@@ -23,9 +23,10 @@ public class CityStatistics {
             cities[i]=city;
         }
         citySurplusQueue = new PriorityQueue<>(cities, new CitySurplusComparator());
+        ArrayList<PriorityQueueInterface.HandleInterface> surplusHandles = citySurplusQueue.getHandle();
         for (int i = 0; i < cities.length; i++) {
             City city = cities[i];
-            PriorityQueueInterface.HandleInterface surplusHandle = citySurplusQueue.getHandle().get(i);
+            PriorityQueueInterface.HandleInterface surplusHandle = surplusHandles.get(i);
             city.updateHandle(surplusHandle);
         }
         citiesProfits = new ArrayList<>();
