@@ -37,27 +37,35 @@ public class BestEffort {
     }
 
     public void registrarTraslados(Traslado[] traslados) {
-        // Implementar
+        for(Traslado t : traslados){
+            TransportNode traslado = new TransportNode(t.id, t.origen, t.destino, t.gananciaNeta, t.timestamp);
+           PriorityQueue<Traslado>.Handle hadleRedituable =  masRedituables.add(traslado);
+           traslado.updateProfitable(hadleRedituable);
+            PriorityQueue<Traslado>.Handle hadleAntiguo = masAntiguos.add(traslado);
+            traslado.updateOldest(hadleAntiguo);
+        }
     }
 
     public int[] despacharMasRedituables(int n) {
-        for (int i = 0; i < n; i++) {
-            Traslado t = masRedituables.poll();
-            estadisticas.refresh(t);
-        }
-        return null;
+        return dispatch(n, masRedituables);
     }
 
     public int[] despacharMasAntiguos(int n) {
-        for (int i = 0; i < n; i++) {
-            Traslado t = masRedituables.poll();
+        return dispatch(n, masAntiguos);
+    }
+
+    private int[] dispatch(int n, PriorityQueue<Traslado> pqueue) {
+        int max = n < pqueue.size() ? n : pqueue.size();
+        int[] traslados = new int[max];
+        for (int i = 0; i < max; i++) {
+            Traslado t = pqueue.poll();
+            traslados[i]= t.getId();
             estadisticas.refresh(t);
         }
-        return null;
+        return traslados;
     }
 
     public int ciudadConMayorSuperavit() {
-        // Implementar
         return estadisticas.getHighestSurplus();
     }
 
