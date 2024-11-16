@@ -26,10 +26,12 @@ public class BestEffort {
         masRedituables = new PriorityQueue<>(transportNodes, new ProfitableComparator());
         masAntiguos = new PriorityQueue<>(transportNodes, new OldestComparator());
 
+        ArrayList<PriorityQueueInterface.HandleInterface> handlesRedituable = masRedituables.getHandle();
+        ArrayList<PriorityQueueInterface.HandleInterface> handlesAntiguos = masAntiguos.getHandle();
         for (int i = 0; i < transportNodes.length; i++) {
             TransportNode transportNode = transportNodes[i];
-            PriorityQueueInterface.HandleInterface profitableHandle = masRedituables.getHandle().get(i);
-            PriorityQueueInterface.HandleInterface oldestHandle = masAntiguos.getHandle().get(i);
+            PriorityQueueInterface.HandleInterface profitableHandle = handlesRedituable.get(i);
+            PriorityQueueInterface.HandleInterface oldestHandle = handlesAntiguos.get(i);
             transportNode.updateProfitable(profitableHandle);
             transportNode.updateOldest(oldestHandle);
         }
