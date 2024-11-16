@@ -17,4 +17,10 @@ public class TransportNode extends Traslado {
     public void updateProfitable(PriorityQueueInterface.HandleInterface handle){
         this.handleProfitable = handle;
     }
+    public PriorityQueueInterface.HandleInterface getHandleOldest() {
+        return handleOldest;
+    }
+    public PriorityQueueInterface.HandleInterface getHandleProfitable() {
+        return handleProfitable;
+    }
 }

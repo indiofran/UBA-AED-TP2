@@ -9,8 +9,8 @@ import aed.utils.OldestComparator;
 import aed.utils.ProfitableComparator;
 
 public class BestEffort {
-    private PriorityQueue<Traslado> masRedituables;
-    private PriorityQueue<Traslado> masAntiguos;
+    private PriorityQueue<TransportNode> masRedituables;
+    private PriorityQueue<TransportNode> masAntiguos;
     private CityStatistics estadisticas;
 
     public BestEffort(int cantCiudades, Traslado[] traslados) {
@@ -39,27 +39,39 @@ public class BestEffort {
     public void registrarTraslados(Traslado[] traslados) {
         for(Traslado t : traslados){
             TransportNode traslado = new TransportNode(t.id, t.origen, t.destino, t.gananciaNeta, t.timestamp);
-           PriorityQueue<Traslado>.Handle hadleRedituable =  masRedituables.add(traslado);
+           PriorityQueue<TransportNode>.Handle hadleRedituable =  masRedituables.add(traslado);
            traslado.updateProfitable(hadleRedituable);
-            PriorityQueue<Traslado>.Handle hadleAntiguo = masAntiguos.add(traslado);
+            PriorityQueue<TransportNode>.Handle hadleAntiguo = masAntiguos.add(traslado);
             traslado.updateOldest(hadleAntiguo);
         }
     }
 
     public int[] despacharMasRedituables(int n) {
-        return dispatch(n, masRedituables);
+        TransportNode[] traslados =  this.dispatch(n, masRedituables);
+        int[] response = new int[traslados.length];
+        for (int i = 0; i < traslados.length; i++ ) {
+                masAntiguos.remove(traslados[i].getHandleOldest());
+                response[i] = traslados[i].getId();
+        }
+        return response;
     }
 
     public int[] despacharMasAntiguos(int n) {
-        return dispatch(n, masAntiguos);
+        TransportNode[] traslados =  this.dispatch(n, masAntiguos);
+        int[] response = new int[traslados.length];
+        for (int i = 0; i < traslados.length; i++ ) {
+            masRedituables.remove(traslados[i].getHandleOldest());
+            response[i] = traslados[i].getId();
+        }
+        return response;
     }
 
-    private int[] dispatch(int n, PriorityQueue<Traslado> pqueue) {
+    private TransportNode[] dispatch(int n, PriorityQueue<TransportNode> pqueue) {
         int max = n < pqueue.size() ? n : pqueue.size();
-        int[] traslados = new int[max];
+        TransportNode[] traslados = new TransportNode[max];
         for (int i = 0; i < max; i++) {
-            Traslado t = pqueue.poll();
-            traslados[i]= t.getId();
+            TransportNode t = pqueue.poll();
+            traslados[i]= t;
             estadisticas.refresh(t);
         }
         return traslados;
