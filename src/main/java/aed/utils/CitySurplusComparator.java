@@ -1,11 +1,10 @@
 package aed.utils;
 
-import aed.Traslado;
 import aed.data.City;
 
 import java.util.Comparator;
 
-public class CitySurplusComparator  implements Comparator<City> {
+public class CitySurplusComparator implements Comparator<City> {
 
     @Override
     public int compare(City o1, City o2) {

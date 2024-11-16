@@ -1,6 +1,5 @@
 package aed.utils;
 
-import aed.Traslado;
 import aed.data.TransportNode;
 
 import java.util.Comparator;
