@@ -19,8 +19,8 @@ public class CityStatistics {
     public CityStatistics(int cityQuatity) {
         cities = new City[cityQuatity];
         for (int i = 0; i < cityQuatity; i++) {
-            City city = new City(i,0,0);
-            cities[i]=city;
+            City city = new City(i, 0, 0);
+            cities[i] = city;
         }
         citySurplusQueue = new PriorityQueue<>(cities, new CitySurplusComparator());
         ArrayList<PriorityQueueInterface.HandleInterface> surplusHandles = citySurplusQueue.getHandle();
@@ -40,30 +40,24 @@ public class CityStatistics {
         City ciudadOrigen = this.cities[t.origen];
         City ciudadDestino = this.cities[t.destino];
 
-        // 1. Actualizo el estado de las ciudades
-        ciudadOrigen.updateProfit(t.gananciaNeta);
-        ciudadOrigen.updateLoses(t.gananciaNeta);
-
-        // 2. Actualizo estadisticas globales
+        // 1. Actualizo estadisticas globales
         this.totalProfits += t.gananciaNeta;
         this.dispatched++;
 
-        // 3. Actualizo los array de ganancia y perdida
+        // 2. Actualizo los array de ganancia y perdida
         // Ganancia:
         if (this.citiesProfits.isEmpty()) {
             this.citiesProfits.add(ciudadOrigen.getId());
         } else {
             int greatestProfit = this.cities[this.citiesProfits.get(0)].getProfit();
-            if (ciudadOrigen.getProfit() > greatestProfit) {
+            if (ciudadOrigen.getProfit() + t.gananciaNeta > greatestProfit) {
                 // Reemplazo con la nueva ciudad
                 this.citiesProfits.clear();
                 this.citiesProfits.add(ciudadOrigen.getId());
             }
-            if (ciudadOrigen.getProfit() == greatestProfit) {
-                // Añado si no existe ya
-                if (!this.citiesProfits.contains(ciudadOrigen.getId())) {
-                    this.citiesProfits.add(ciudadOrigen.getId());
-                }
+            if (ciudadOrigen.getProfit() + t.gananciaNeta == greatestProfit) {
+                this.citiesProfits.add(ciudadOrigen.getId());
+
             }
         }
 
@@ -72,22 +66,27 @@ public class CityStatistics {
             this.citiesLoses.add(ciudadDestino.getId());
         } else {
             int greatestLoss = this.cities[this.citiesLoses.get(0)].getLoses();
-            if (ciudadDestino.getLoses() < greatestLoss) {
+            if (ciudadDestino.getLoses() + t.gananciaNeta > greatestLoss) {
                 // Reemplazo con la nueva ciudad
                 this.citiesLoses.clear();
                 this.citiesLoses.add(ciudadDestino.getId());
             }
-            if (ciudadDestino.getLoses() == greatestLoss) {
-                // Añado si no existe ya
-                if (!this.citiesLoses.contains(ciudadDestino.getId())) {
-                    this.citiesLoses.add(ciudadDestino.getId());
-                }
+            if (ciudadDestino.getLoses() + t.gananciaNeta == greatestLoss) {
+                this.citiesLoses.add(ciudadDestino.getId());
             }
         }
+
+        // 3. Actualizo el estado de las ciudades
+        ciudadOrigen.updateProfit(t.gananciaNeta);
+        ciudadDestino.updateLoses(t.gananciaNeta);
+
+        // 4. Actualiza la cola de prioridad de superavit
+        this.citySurplusQueue.refresh(ciudadOrigen.getHandle(), ciudadOrigen);
+        this.citySurplusQueue.refresh(ciudadDestino.getHandle(), ciudadDestino);
     }
 
     public int getHighestSurplus() {
-        return citySurplusQueue.peek().getSurplus();
+        return citySurplusQueue.peek().getId();
     }
 
     public ArrayList<Integer> getHighestProfits() {
