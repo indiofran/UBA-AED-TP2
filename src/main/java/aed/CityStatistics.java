@@ -97,6 +97,9 @@ public class CityStatistics {
     }
 
     public int getAverageProfit() {
+        if (dispatched == 0) {
+            return 0;
+        }
         return totalProfits / dispatched;
     }
 

@@ -50,6 +50,9 @@ public class PriorityQueue<T> implements PriorityQueueInterface<T> {
 
     public T remove(HandleInterface handle) {
         int i = handle.getIndex();
+        if (i >= this.size()) {
+            return null;
+        }
         T elem = nodes.get(i).data;
         Node ultimo = nodes.get(nodes.size() - 1);
 
@@ -76,13 +79,14 @@ public class PriorityQueue<T> implements PriorityQueueInterface<T> {
     public void refresh(HandleInterface handle, T elem) {
         int i = handle.getIndex();
         int padre = (i - 1) / 2;
+        if (i < this.size()) {
+            nodes.get(i).data = elem;
 
-        nodes.get(i).data = elem;
-
-        if (hasHigherPriority(i, padre)) {
-            siftUp(i);
-        } else {
-            siftDown(i);
+            if (hasHigherPriority(i, padre)) {
+                siftUp(i);
+            } else {
+                siftDown(i);
+            }
         }
     }
 
