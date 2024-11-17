@@ -33,26 +33,26 @@ public class ComplexityBestEffortTest {
             long startTime = System.nanoTime();
             BestEffort bestEffort = new BestEffort(numCities, traslados);
             long endTime = System.nanoTime();
-            constructorTimes[size - 1] = (endTime - startTime) / 1_000_000; // Convertir a ms
+            constructorTimes[size - 1] = (endTime - startTime);
 
             // Registrar traslados
             Traslado[] nuevosTraslados = generateTraslados(size / 2, numCities);
             startTime = System.nanoTime();
             bestEffort.registrarTraslados(nuevosTraslados);
             endTime = System.nanoTime();
-            registerTimes[size - 1] = (endTime - startTime) / 1_000_000;
+            registerTimes[size - 1] = (endTime - startTime);
 
             // Despachar más redituables
             startTime = System.nanoTime();
             bestEffort.despacharMasRedituables(size / 4);
             endTime = System.nanoTime();
-            dispatchProfitableTimes[size - 1] = (endTime - startTime) / 1_000_000;
+            dispatchProfitableTimes[size - 1] = (endTime - startTime);
 
             // Despachar más antiguos
             startTime = System.nanoTime();
             bestEffort.despacharMasAntiguos(size / 4);
             endTime = System.nanoTime();
-            dispatchOldestTimes[size - 1] = (endTime - startTime) / 1_000_000;
+            dispatchOldestTimes[size - 1] = (endTime - startTime);
 
             // Consultas estadísticas
             startTime = System.nanoTime();

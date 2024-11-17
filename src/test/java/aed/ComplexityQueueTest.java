@@ -9,7 +9,7 @@ import java.util.Random;
 
 public class ComplexityQueueTest {
     public static void main(String[] args) {
-        int maxSize = 100_000; // Máximo número de elementos en la cola
+        int maxSize = 200_000; // Máximo número de elementos en la cola
         int maxValue = 10_000; // Máximo valor para los enteros en la cola
         Random random = new Random();
 
@@ -32,19 +32,19 @@ public class ComplexityQueueTest {
             long startTime = System.nanoTime();
             PriorityQueue<Integer> pq = new PriorityQueue<>(elements, Comparator.naturalOrder());
             long endTime = System.nanoTime();
-            constructorTimes[size - 1] = (endTime - startTime) / 1_000_000; // Convertir a ms
+            constructorTimes[size - 1] = (endTime - startTime);
 
             // Medir tiempo de `add`
             startTime = System.nanoTime();
             pq.add(random.nextInt(maxValue));
             endTime = System.nanoTime();
-            addTimes[size - 1] = (endTime - startTime) / 1_000_000;
+            addTimes[size - 1] = (endTime - startTime);
 
             // Medir tiempo de `poll`
             startTime = System.nanoTime();
             pq.poll();
             endTime = System.nanoTime();
-            pollTimes[size - 1] = (endTime - startTime) / 1_000_000;
+            pollTimes[size - 1] = (endTime - startTime);
 
             // Medir tiempo de `peek`
             startTime = System.nanoTime();
@@ -56,14 +56,14 @@ public class ComplexityQueueTest {
             startTime = System.nanoTime();
             pq.remove(pq.getHandle().get(0)); // Eliminar el primer elemento
             endTime = System.nanoTime();
-            removeTimes[size - 1] = (endTime - startTime) / 1_000_000;
+            removeTimes[size - 1] = (endTime - startTime);
 
             // Medir tiempo de `refresh`
             Integer updatedValue = random.nextInt(maxValue);
             startTime = System.nanoTime();
             pq.refresh(pq.getHandle().get(0), updatedValue);
             endTime = System.nanoTime();
-            refreshTimes[size - 1] = (endTime - startTime) / 1_000_000;
+            refreshTimes[size - 1] = (endTime - startTime);
 
             if (size % 100 == 0) {
                 System.out.println("Procesado: " + size + " elementos.");
