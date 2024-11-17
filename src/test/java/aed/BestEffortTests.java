@@ -228,4 +228,29 @@ public class BestEffortTests {
 
         assertArrayEquals(ids, new int[] { 7, 5, 6, 3, 4, 2, 1 });
     }
+
+    @Test
+    void despachar_muchos() {
+        int nuevaCantCiudades = 100;
+        int cantTraslados = (nuevaCantCiudades - 1) * 1000; // Así se distribuyen los destinos uniformemente
+        int ganancia = 500;
+        Traslado[] nuevosTraslados = new Traslado[cantTraslados];
+
+        for (int i = 0; i < cantTraslados; i++) {
+            int ciudadDestinoId = (i % (nuevaCantCiudades - 1)) + 1; // Distribución uniforme desde 1 hasta nuevaCantCiudades - 1
+            nuevosTraslados[i] = new Traslado(i, 0, ciudadDestinoId, ganancia, i + 1);
+        }
+
+        BestEffort sis = new BestEffort(nuevaCantCiudades, nuevosTraslados);
+        sis.despacharMasAntiguos(cantTraslados);
+        assertEquals(sis.ciudadConMayorSuperavit(), 0);
+        assertEquals(sis.gananciaPromedioPorTraslado(), ganancia);
+        assertEquals(sis.ciudadesConMayorGanancia(), new ArrayList<>(Arrays.asList(0)));
+
+        ArrayList<Integer> ciudadesPerdidas = new ArrayList<>();
+        for (int i = 1; i <= 99; i++) {
+            ciudadesPerdidas.add(i);
+        }
+        assertSetEquals(sis.ciudadesConMayorPerdida(), ciudadesPerdidas); // Todas excepto la primera con misma perdida
+    }
 }
