@@ -14,6 +14,10 @@ public class PriorityQueue<T> implements PriorityQueueInterface<T> {
         this.cmp = comparator;
     }
 
+    // Constructor de Priority Queue. El proceso de heapify o siftDown tiene una complejidad de O(log(n)),
+// mientras que agregar elementos a una lista es O(1). Al agregar todos los elementos (n elementos),
+// la complejidad total se calcula como O(n + log(n)). Dado que O(log(n)) es menor que O(n),
+// la complejidad final se acota a O(n).
     public PriorityQueue(T[] elems, Comparator<T> comparator) {
         this.nodes = new ArrayList<Node>();
         this.cmp = comparator;
@@ -151,7 +155,7 @@ public class PriorityQueue<T> implements PriorityQueueInterface<T> {
             siftUp(padre);
         }
     }
-
+    // O(log n)
     private void siftDown(int i) {
         int izq = 2 * i + 1;
         int der = 2 * i + 2;

@@ -16,6 +16,14 @@ public class CityStatistics {
     private int totalProfits;
     private int dispatched;
 
+// El constructor CityStatistics realiza múltiples operaciones secuenciales.
+// Inicializa un array de City con una complejidad de O(c) donde es es la cantidad de ciudades.
+// Luego, crea una PriorityQueue con las ciudades, lo que tiene una complejidad de O(c).
+// Posteriormente, se obtienen los handles de la PriorityQueue y se actualizan para cada ciudad,
+// lo que también tiene una complejidad de O(c).
+// Finalmente, se inicializan las listas de ganancias y pérdidas, junto con otras variables,
+// todas con complejidad O(1). Por lo tanto, la complejidad total del constructor es O(c).
+
     public CityStatistics(int cityQuatity) {
         cities = new City[cityQuatity];
         for (int i = 0; i < cityQuatity; i++) {
@@ -35,6 +43,12 @@ public class CityStatistics {
         dispatched = 0;
     }
 
+    // El metodo refresh realiza varias actualizaciones secuenciales.
+// Primero, actualiza estadísticas globales y de las listas de ganancias y pérdidas,
+// con una complejidad lineal respecto al tamaño de las listas.
+// Posteriormente, actualiza los valores de las ciudades (O(1) por operación)
+// y refresca los handles en la PriorityQueue, con una complejidad O(log(t)) por cada refresh.
+// por lo que puede estimarse como O(log(t)).
     public void refresh(Traslado t) {
         // Actualizar estadisticas dado un traslado
         City ciudadOrigen = this.cities[t.origen];
