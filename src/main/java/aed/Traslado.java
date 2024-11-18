@@ -1,14 +1,14 @@
 package aed;
 
 public class Traslado {
-    
+
     int id;
     int origen;
     int destino;
     int gananciaNeta;
     int timestamp;
 
-    public Traslado(int id, int origen, int destino, int gananciaNeta, int timestamp){
+    public Traslado(int id, int origen, int destino, int gananciaNeta, int timestamp) {
         this.id = id;
         this.origen = origen;
         this.destino = destino;
@@ -18,5 +18,13 @@ public class Traslado {
 
     public int getTimestamp() {
         return timestamp;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getProfit() {
+        return gananciaNeta;
     }
 }
